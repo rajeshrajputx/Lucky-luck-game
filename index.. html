@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Portal</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#f2f2f2;
+text-align:center;
+}
+
+header{
+background:#d62828;
+color:white;
+padding:15px;
+font-size:22px;
+}
+
+.container{
+padding:15px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+button{
+padding:10px 15px;
+background:#d62828;
+border:none;
+color:white;
+border-radius:8px;
+margin-top:10px;
+}
+
+#wallet{
+font-size:18px;
+margin-top:10px;
+}
+
+#wheel{
+width:200px;
+height:200px;
+border-radius:50%;
+border:8px solid #333;
+margin:20px auto;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+background:conic-gradient(
+red 0deg 90deg,
+yellow 90deg 180deg,
+green 180deg 270deg,
+blue 270deg 360deg
+);
+}
+
+</style>
+</head>
+
+<body>
+
+<header>🎮 My Game Portal</header>
+
+<div class="container">
+
+<div id="loginBox">
+<h3>Login / Signup</h3>
+<input id="user" placeholder="Enter username">
+<br><br>
+<button onclick="login()">Enter</button>
+</div>
+
+<div id="portal" style="display:none">
+
+<h3 id="welcome"></h3>
+
+<div id="wallet">💰 Points: <span id="points">100</span></div>
+
+<div class="grid">
+
+<div class="card">
+<h4>Number Guess</h4>
+<button onclick="guessGame()">Play</button>
+</div>
+
+<div class="card">
+<h4>Spin Wheel</h4>
+<button onclick="spinWheel()">Spin</button>
+</div>
+
+<div class="card">
+<h4>Lucky Color</h4>
+<button onclick="colorGame()">Try</button>
+</div>
+
+<div class="card">
+<h4>Scratch Card</h4>
+<button onclick="scratch()">Scratch</button>
+</div>
+
+</div>
+
+<div id="wheel">🎡</div>
+
+</div>
+
+</div>
+
+<script>
+
+let points=100
+
+function updateWallet(){
+document.getElementById("points").innerText=points
+}
+
+function login(){
+
+let u=document.getElementById("user").value
+
+if(u==""){
+alert("Enter username")
+return
+}
+
+localStorage.setItem("user",u)
+
+document.getElementById("loginBox").style.display="none"
+document.getElementById("portal").style.display="block"
+document.getElementById("welcome").innerText="Welcome "+u
+
+}
+
+function guessGame(){
+
+let num=Math.floor(Math.random()*5)+1
+let g=prompt("Guess number 1-5")
+
+if(Number(g)===num){
+
+alert("You win +20 points")
+points+=20
+
+}else{
+
+alert("Wrong number")
+
+}
+
+updateWallet()
+
+}
+
+function spinWheel(){
+
+let rewards=[10,20,0,5]
+
+let r=rewards[Math.floor(Math.random()*rewards.length)]
+
+points+=r
+
+document.getElementById("wheel").style.transform="rotate("+(Math.random()*720)+"deg)"
+
+alert("You got "+r+" points")
+
+updateWallet()
+
+}
+
+function colorGame(){
+
+let colors=["Red","Green","Blue"]
+
+let r=colors[Math.floor(Math.random()*colors.length)]
+
+alert("Lucky color: "+r)
+
+points+=5
+
+updateWallet()
+
+}
+
+function scratch(){
+
+let rewards=[0,50,500]
+
+let r=rewards[Math.floor(Math.random()*rewards.length)]
+
+if(r==500){
+
+alert("🎉 You won ₹500 Gift Card Code: WIN500")
+
+}else if(r==50){
+
+alert("You got 50 points")
+
+points+=50
+
+}else{
+
+alert("Better luck next time")
+
+}
+
+updateWallet()
+
+}
+
+</script>
+
+</body>
+</html>
